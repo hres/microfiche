@@ -11,7 +11,7 @@ echo "Search in: <select name='searchin'>";
               mysql_close();
 echo "</select>";
 // Setup what value to look for
-echo "for values that begin with: <input type='text' name='searchfor' value='-------'>";
+echo "for values that begin with: <input type='text' name='searchfor'>";
 echo "<input type='submit' name='submit' value='Submit'>";
 ?>
 </form>
@@ -44,7 +44,7 @@ echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
       </tr>
 
 <?php include 'conn.php';
-$result = mysql_query("SELECT * FROM $tablename WHERE $searchelement LIKE '$searchfor%'");
+$result = mysql_query("SELECT * FROM $tablename WHERE $searchelement LIKE '$searchfor'");
 $link = "abc";
 while ($row = mysql_fetch_array($result)) {
        echo "<tr>";
