@@ -46,7 +46,7 @@ echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
 <?php include 'conn.php';
 //$queryresult = "SELECT * FROM $tablename WHERE $searchelement LIKE '$searchfor%';";
 echo $searchvalue;
-$queryresult = "SELECT * FROM $tablename WHERE $searchelement LIKE $searchvalue%;";
+$queryresult = "SELECT * FROM $tablename WHERE $searchelement LIKE '$searchvalue%';";
 $result = mysql_query($queryresult);
 while ($row = mysql_fetch_array($result)) {
        echo "<tr>";
