@@ -45,7 +45,6 @@ echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
 
 <?php include 'conn.php';
 $result = mysql_query("SELECT * FROM $tablename WHERE $searchelement LIKE '$searchfor%'");
-$link = "abc";
 while ($row = mysql_fetch_array($result)) {
        echo "<tr>";
        for($i = 0, $j = count($colcount); $i < $j ; $i++) {
@@ -53,7 +52,9 @@ while ($row = mysql_fetch_array($result)) {
                         echo $row[$colcount[$i]];
                         echo "</td>";
            }
-       echo "<td> <a href=./pdf/".$link.".pdf>Link</a> </td>";
+       echo "<td> <a href=./pdf/"
+       echo $row['AccessNum'];
+       echo ".pdf>Link</a> </td>";
        echo "</tr>";
        }
 ?>
