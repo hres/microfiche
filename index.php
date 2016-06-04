@@ -52,8 +52,9 @@ while ($row = mysql_fetch_array($result)) {
                         echo $row[$colcount[$i]];
                         echo "</td>";
            }
-       echo "<td> <a href=./pdf/"
-       echo $row['AccessNum'];
+       echo "<td> <a href=";
+       echo $pdfpath;
+       echo $row[$pdfname];
        echo ".pdf>Link</a> </td>";
        echo "</tr>";
        }
