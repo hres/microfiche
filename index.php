@@ -54,7 +54,7 @@ while ($row = mysql_fetch_array($result)) {
            }
        echo "<td> <a href=";
        echo $pdfpath;
-       echo $row[$pdfname];
+       //echo $row[$pdfname];
        echo ".pdf>Link</a> </td>";
        echo "</tr>";
        }
