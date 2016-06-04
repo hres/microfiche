@@ -58,5 +58,6 @@ while ($row = mysql_fetch_array($result)) {
        echo ".pdf>Link</a> </td>";
        echo "</tr>";
        }
+mysql_close();
 ?>
 </table>
