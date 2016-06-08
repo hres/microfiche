@@ -30,7 +30,7 @@ echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
 <table border = 1 width = 1280>
       <tr>
             <?php include 'conn.php';
-            // Setup the header row for the search results by querying the DB for the field names and add an additional column for the link based on PDFs with Access Numbers as file names
+      // Setup the header row for the search results by querying the DB for the field names and add an additional column for the link based on PDFs with Access Numbers as file names
             $querycolumns = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='$dbname' AND `TABLE_NAME`='$tablename';";
                   $columnvalue = mysql_query ($querycolumns);
                   while($column = mysql_fetch_assoc($columnvalue)){
@@ -40,6 +40,8 @@ echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
              
              mysql_close();
             ?>
+      <th>ManuCode</th>
+      <th>MfgName</th>
       <th>Link</th>
       </tr>
 
