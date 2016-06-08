@@ -42,7 +42,34 @@ echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
             ?>
       <th>Link</th>
       </tr>
+<?php include 'conn.php';
+//Run the query and populate the table 
+$queryresult = "SELECT $tablename.*, $tablename2.* FROM $tablename JOIN $tablename2 ON $tablename2.$serachelement LIKE concat($tablename1.MFRCode,"%") WHERE $tablename1.MFRCODE LIKE '%$searchvalue%';";
 
+//select All_Products.* , Manufacturers.*
+//from All_Products
+//join Manufacturers
+//  on Manufacturers.ManuCode like concat(All_Products.MFRCode,'%') WHERE All_Products.MFsRCode = "CYO"
+
+
+$result = mysql_query($queryresult);
+while ($row = mysql_fetch_array($result)) {
+       echo "<tr>";
+       //Loop through the variable because we don't know what the field name is and return the query results based on what the db has the field names as (e.g DB can change without this code changing too much)
+       for($i = 0, $j = count($colcount); $i < $j ; $i++) {
+                        echo "<td>";
+                        echo $row[$colcount[$i]];
+                        echo "</td>";
+           }
+       // Output a link using the AccessNum as the file name
+       echo "<td> <a href=";
+       echo $pdfpath;
+       echo $row[$pdfname];
+       echo ".pdf>Link</a> </td>";
+       echo "</tr>";
+       }
+mysql_close();
+?>
 
 
 
