@@ -47,7 +47,7 @@ echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
 
 <?php include 'conn.php';
 //Run the query and populate the table 
-$queryresult = "SELECT $tablename.*, $tablename2.* FROM $tablename JOIN $tablename2 ON $tablename2.ManuCode LIKE $tablename1.MFRCode% WHERE $tablename2.MfgName = "%Compounding%";";
+$queryresult = "SELECT $tablename.*, $tablename2.* FROM $tablename JOIN $tablename2 ON $tablename2.ManuCode LIKE CONCAT($tablename1.MFRCode, "%") WHERE $tablename2.MfgName = "%Compounding%";";
 //LIKE '%$searchvalue%';";
 
 //select All_Products.* , Manufacturers.*
