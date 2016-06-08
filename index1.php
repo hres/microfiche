@@ -16,3 +16,34 @@ echo "<input type='submit' name='submit' value='Submit'>";
 ?>
 </form>
 <hr>
+
+<?php
+// Take values from entry form and pass into search query
+if(isset($_POST['submit']))
+{ 
+    $searchelement = $_POST['searchin'];
+    $searchvalue = $_POST['searchfor'];
+echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
+}
+?>
+
+<table border = 1 width = 1280>
+      <tr>
+            <?php include 'conn.php';
+            // Setup the header row for the search results by querying the DB for the field names and add an additional column for the link based on PDFs with Access Numbers as file names
+            $querycolumns = "SELECT `COLUMN_NAME` FROM `INFORMATION_SCHEMA`.`COLUMNS` WHERE `TABLE_SCHEMA`='$dbname' AND `TABLE_NAME`='$tablename';";
+                  $columnvalue = mysql_query ($querycolumns);
+                  while($column = mysql_fetch_assoc($columnvalue)){
+                  echo "<th>$column[COLUMN_NAME]</th>";
+                  $colcount[] = $column['COLUMN_NAME'];
+                  }
+             
+             mysql_close();
+            ?>
+      <th>Link</th>
+      </tr>
+
+
+
+
+</table>
