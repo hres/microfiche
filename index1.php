@@ -42,15 +42,18 @@ echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
             ?>
       <th>Link</th>
       </tr>
+
+
+
 <?php include 'conn.php';
 //Run the query and populate the table 
-$queryresult = "SELECT $tablename.*, $tablename2.* FROM $tablename JOIN $tablename2 ON $tablename2.MFRCode LIKE $tablename1.MFRCode% WHERE $tablename1.MfgName = "%Compounding%";";
+$queryresult = "SELECT $tablename.*, $tablename2.* FROM $tablename JOIN $tablename2 ON $tablename2.ManuCode LIKE $tablename1.MFRCode% WHERE $tablename2.MfgName = "%Compounding%";";
 //LIKE '%$searchvalue%';";
 
 //select All_Products.* , Manufacturers.*
 //from All_Products
 //join Manufacturers
-//  on Manufacturers.ManuCode like concat(All_Products.MFRCode,'%') WHERE All_Products.MFsRCode = "CYO"
+//  on Manufacturers.ManuCode like concat(All_Products.MFRCode,'%') WHERE Manufacturers.MfgName LIKE '%'"LAB"'%'
 
 
 $result = mysql_query($queryresult);
