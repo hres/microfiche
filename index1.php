@@ -40,24 +40,15 @@ echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
              
              mysql_close();
             ?>
-      <th>ManuCode</th>
-      <th>MfgName</th>
-      <th>Link</th>
+          <th>Link</th>
       </tr>
 
 
 
 <?php include 'conn.php';
 //Run the query and populate the table 
-$queryresult = "SELECT $tablename.* FROM $tablename"
-//$queryresult = "SELECT $tablename.*, $tablename2.* FROM $tablename JOIN $tablename2 ON $tablename2.ManuCode LIKE CONCAT('$tablename1.MFRCode', '%') WHERE $tablename2.MfgName = "%Compounding%";";
+//$queryresult = "SELECT $tablename.* FROM $tablename JOIN $tablename2 ON $tablename2.ManuCode LIKE CONCAT('$tablename1.MFRCode', '%') WHERE $tablename2.MfgName = "%Compounding%";";
 //LIKE '%$searchvalue%';";
-echo $queryresult;
-//select All_Products.* , Manufacturers.*
-//from All_Products
-//join Manufacturers
-//  on Manufacturers.ManuCode like concat(All_Products.MFRCode,'%') WHERE Manufacturers.MfgName LIKE '%'"LAB"'%'
-
 
 $result = mysql_query($queryresult);
 while ($row = mysql_fetch_array($result)) {
