@@ -1,4 +1,4 @@
-select All_Products.AccessNum , Manufacturers.* , All_Products.MFRCode
+select All_Products.*, Manufacturers.*
 from All_Products
 join Manufacturers
-  on Manufacturers.ManuCode like concat(All_Products.MFRCode,'%') WHERE AccessNum = 75737; 
+  on Manufacturers.ManuCode like concat(All_Products.MFRCode,'%') WHERE Manufacturers.MfgName LIKE '%'"ABBOTT"'%'
