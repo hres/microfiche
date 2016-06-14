@@ -26,7 +26,8 @@ echo '<option value="start">starts with</option>';
 echo '<option value="end">ends with</option>';
 echo '<option value="contain">contains</option>';
 echo "</select>";
-echo " : <input type='text' name='searchfor' value='1'>";
+echo " : <input type='text' name='searchfor'>";
+echo "<label for='manufactureinput'>Manufacture (optional)</label><input type='text' id='manufactureinput' name='manufacture'>";
 echo "<input type='submit' name='submit' value='Submit'>";
 ?>
 </form>
@@ -39,7 +40,8 @@ if(isset($_POST['submit']))
     $searchelement = $_POST['searchin'];
     $searchvalue = $_POST['searchfor'];
     $searchtype = $_POST['type'];
-echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
+    $manufacture = $_POST['manufacture'];
+echo " Results of '$searchelement' $searchtype with '$searchvalue'<hr>";
 }
 ?>
 
@@ -54,35 +56,55 @@ echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
               while(mysqli_stmt_fetch($querycolumns_prepare)){
                   echo "<th>$col</th>";
                   $colcount[] = $col;
-                  }
-	        mysqli_stmt_close($querycolumns_prepare);
+              }
+		if(isset($manufacture) && $manufacture != ""){
+			echo "<th>Manufacture Code</th>";
+			echo "<th>Manufacture Name</th>";
+		}
+	      mysqli_stmt_close($querycolumns_prepare);
                 //mysqli_close($dbhandle);//close at end of page, saves you from having to keep opening 
             ?>
       <th>Link</th>
       </tr>
 
 <?php
-	 $query = mysqli_stmt_init($dbhandle);
-          mysqli_stmt_prepare($query, "SELECT * FROM ".$config['tablename']." WHERE ".$searchelement." LIKE ?;");
 	switch($searchtype){
-		case "start":
-			$searchvalue = "$searchvalue%";
-			break;
-		case "end":
-			$searchvalue = "%$searchvalue";
-			break;
-		case "contain":
-			$searchvalue = "%$searchvalue%";
-			break;
-		default:
-			$searchvalue = "$searchvalue%";
-	}
-	 // $searchelement = "$searchelement";
-          mysqli_stmt_bind_param($query,'s',$searchvalue);
-          mysqli_stmt_execute($query);
-	  //echo mysqli_stmt_num_rows($query);
+                case "start":
+                        $searchvalue = "$searchvalue%";
+                        break;
+                case "end":
+                        $searchvalue = "%$searchvalue";
+                        break;
+                case "contain":
+                        $searchvalue = "%$searchvalue%";
+                        break;
+                default:
+                        $searchvalue = "$searchvalue%";
+        }
+
+	$query = mysqli_stmt_init($dbhandle);
+	if(isset($manufacture) && $manufacture != ""){
+		$querystring = "SELECT All_Products.*, Manufacturers.* FROM ".$config['tablename']." JOIN Manufacturers ON Manufacturers.ManuCode like concat(All_Products.MFRCode,'%')  WHERE Manufacturers.MfgName LIKE ? AND ".$searchelement." LIKE ?;";
+		mysqli_stmt_prepare($query, $querystring);
+		$manufacture = "%$manufacture%";
+	        mysqli_stmt_bind_param($query,'ss',$manufacture,$searchvalue);
+          	mysqli_stmt_execute($query);
 	  //define which columns will be displayed, more columns needed? add them below eg: $column['newcolumn']
-          mysqli_stmt_bind_result($query,$column['AccessNum'],$column['MFRCode'],$column['ClassNum'],$column['NotificationDate'],$column['ProductName'],$column['DIN'],$column['Form'],$column['Route']);
+          	mysqli_stmt_bind_result($query,$column['AccessNum'],$column['MFRCode'],$column['ClassNum'],$column['NotificationDate'],$column['ProductName'],$column['DIN'],$column['Form'],$column['Route'],$column['ManuCode'],$column['MfgName']);
+	}else{
+		$querystring = "SELECT * FROM ".$config['tablename']." WHERE ".$searchelement." LIKE ?";
+		mysqli_stmt_prepare($query, $querystring);
+          	mysqli_stmt_bind_param($query,'s',$searchvalue);
+	        mysqli_stmt_execute($query);
+	  //define which columns will be displayed, more columns needed? add them below eg: $column['newcolumn']
+          	mysqli_stmt_bind_result($query,$column['AccessNum'],$column['MFRCode'],$column['ClassNum'],$column['NotificationDate'],$column['ProductName'],$column['DIN'],$column['Form'],$column['Route']);
+	}
+/*select All_Products.*, Manufacturers.*
+from All_Products
+join Manufacturers
+  on Manufacturers.ManuCode like concat(All_Products.MFRCode,'%') WHERE Manufacturers.MfgName LIKE '%'"ABBOTT"'%'
+*/
+	  //echo mysqli_stmt_num_rows($query);
 	//beacuse we are not using the mysqlnd native driver we cannot use fetch_result
 	while(mysqli_stmt_fetch($query)){
 		echo "<tr>";
