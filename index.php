@@ -20,7 +20,13 @@ echo "Search in: <select name='searchin'>";
 		//mysqli_close($dbhandle);//close at end of page, saves you from having to keep opening
 echo "</select>";
 // Ask the User what value to look for in the above selected 
-echo "for values that begin with: <input type='text' name='searchfor' value='1'>";
+echo "for values that ";
+echo '<select name="type">';
+echo '<option value="start">starts with</option>';
+echo '<option value="end">ends with</option>';
+echo '<option value="contain">contains</option>';
+echo "</select>";
+echo " : <input type='text' name='searchfor' value='1'>";
 echo "<input type='submit' name='submit' value='Submit'>";
 ?>
 </form>
@@ -32,6 +38,7 @@ if(isset($_POST['submit']))
 { 
     $searchelement = $_POST['searchin'];
     $searchvalue = $_POST['searchfor'];
+    $searchtype = $_POST['type'];
 echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
 }
 ?>
@@ -57,8 +64,20 @@ echo " Results of '$searchelement' beginging with '$searchvalue'<hr>";
 <?php
 	 $query = mysqli_stmt_init($dbhandle);
           mysqli_stmt_prepare($query, "SELECT * FROM ".$config['tablename']." WHERE ".$searchelement." LIKE ?;");
-	  $searchvalue = "$searchvalue%";
-	  $searchelement = "$searchelement";
+	switch($searchtype){
+		case "start":
+			$searchvalue = "$searchvalue%";
+			break;
+		case "end":
+			$searchvalue = "%$searchvalue";
+			break;
+		case "contain":
+			$searchvalue = "%$searchvalue%";
+			break;
+		default:
+			$searchvalue = "$searchvalue%";
+	}
+	 // $searchelement = "$searchelement";
           mysqli_stmt_bind_param($query,'s',$searchvalue);
           mysqli_stmt_execute($query);
 	  //echo mysqli_stmt_num_rows($query);
