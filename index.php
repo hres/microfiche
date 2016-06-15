@@ -57,6 +57,7 @@ echo " Results of '$searchelement' $searchtype with '$searchvalue'<hr>";
                   echo "<th>$col</th>";
                   $colcount[] = $col;
               }
+              //Alter table structure to include Manufacture info if it is entered into the form
 		if(isset($manufacture) && $manufacture != ""){
 			echo "<th>Manufacture Code</th>";
 			echo "<th>Manufacture Name</th>";
@@ -68,6 +69,7 @@ echo " Results of '$searchelement' $searchtype with '$searchvalue'<hr>";
       </tr>
 
 <?php
+// Let the user pick the search type
 	switch($searchtype){
                 case "start":
                         $searchvalue = "$searchvalue%";
@@ -99,11 +101,6 @@ echo " Results of '$searchelement' $searchtype with '$searchvalue'<hr>";
 	  //define which columns will be displayed, more columns needed? add them below eg: $column['newcolumn']
           	mysqli_stmt_bind_result($query,$column['AccessNum'],$column['MFRCode'],$column['ClassNum'],$column['NotificationDate'],$column['ProductName'],$column['DIN'],$column['Form'],$column['Route']);
 	}
-/*select All_Products.*, Manufacturers.*
-from All_Products
-join Manufacturers
-  on Manufacturers.ManuCode like concat(All_Products.MFRCode,'%') WHERE Manufacturers.MfgName LIKE '%'"ABBOTT"'%'
-*/
 	  //echo mysqli_stmt_num_rows($query);
 	//beacuse we are not using the mysqlnd native driver we cannot use fetch_result
 	while(mysqli_stmt_fetch($query)){
