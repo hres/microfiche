@@ -58,10 +58,10 @@ echo " Results of '$searchelement' $searchtype with '$searchvalue'<hr>";
                   $colcount[] = $col;
               }
               //Alter table structure to include Manufacture info if it is entered into the form
-		if(isset($manufacture) && $manufacture != ""){
+	//	if(isset($manufacture) && $manufacture != ""){
 			echo "<th>Manufacture Code</th>";
 			echo "<th>Manufacture Name</th>";
-		}
+	//	}
 	      mysqli_stmt_close($querycolumns_prepare);
                 //mysqli_close($dbhandle);//close at end of page, saves you from having to keep opening 
             ?>
